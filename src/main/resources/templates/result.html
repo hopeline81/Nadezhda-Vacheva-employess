@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Employee Pair Finder</title>
+</head>
+<body>
+<h1>Result</h1>
+<div th:if="${message}">
+  <p th:text="${message}"></p>
+</div>
+<div th:if="${employeeId1}">
+  <p>Pair of employees with the longest time worked together:</p>
+  <p>Employee ID 1: <span th:text="${employeeId1}"></span></p>
+  <p>Employee ID 2: <span th:text="${employeeId2}"></span></p>
+  <p>Total overlap days: <span th:text="${totalOverlapDays}"></span></p>
+</div>
+<a href="/">Upload another file</a>
+</body>
+</html>
