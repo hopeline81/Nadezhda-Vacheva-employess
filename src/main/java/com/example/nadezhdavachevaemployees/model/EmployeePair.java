@@ -6,11 +6,13 @@ public class EmployeePair {
 
     private final int firstEmployeeId;
     private final int secondEmployeeId;
+    private final int projectId;
     private long totalOverlapDays;
 
-    public EmployeePair(int firstEmployeeId, int secondEmployeeId) {
+    public EmployeePair(int firstEmployeeId, int secondEmployeeId, int projectId) {
         this.firstEmployeeId = firstEmployeeId;
         this.secondEmployeeId = secondEmployeeId;
+        this.projectId = projectId;
         this.totalOverlapDays = 0;
     }
 
@@ -28,6 +30,14 @@ public class EmployeePair {
 
     public int getEmployeeId2() {
         return secondEmployeeId;
+    }
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setTotalOverlapDays(long totalOverlapDays) {
+        this.totalOverlapDays = totalOverlapDays;
     }
 
     @Override

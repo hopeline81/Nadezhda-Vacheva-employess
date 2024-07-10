@@ -2,6 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Employee Pair Finder</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
 </head>
 <body>
 <h1>Result</h1>
@@ -10,9 +24,24 @@
 </div>
 <div th:if="${employeeId1}">
   <p>Pair of employees with the longest time worked together:</p>
-  <p>Employee ID 1: <span th:text="${employeeId1}"></span></p>
-  <p>Employee ID 2: <span th:text="${employeeId2}"></span></p>
-  <p>Total overlap days: <span th:text="${totalOverlapDays}"></span></p>
+  <table>
+    <thead>
+    <tr>
+      <th>Employee ID 1</th>
+      <th>Employee ID 2</th>
+      <th>Project ID</th>
+      <th>Total Overlap Days</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td th:text="${employeeId1}"></td>
+      <td th:text="${employeeId2}"></td>
+      <td th:text="${projectId}"></td>
+      <td th:text="${totalOverlapDays}"></td>
+    </tr>
+    </tbody>
+  </table>
 </div>
 <a href="/">Upload another file</a>
 </body>

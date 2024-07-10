@@ -9,7 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OverlapingCalculation {
+public class OverlappingCalculation {
 
     public Map<EmployeePair, Long> calculateOverlaps(List<EmployeeData> projects) {
         Map<EmployeePair, Long> overlapMap = new HashMap<>();
@@ -30,7 +30,7 @@ public class OverlapingCalculation {
                         long overlapDays =
                                 (minEnd.getTime() - maxStart.getTime()) / (1000 * 60 * 60 * 24);
                         EmployeePair pair = new EmployeePair(firstEmployee.getEmployeeId(),
-                                secondEmployee.getEmployeeId());
+                                secondEmployee.getEmployeeId(), firstEmployee.getProjectId());
 
                         overlapMap.put(pair, overlapMap.getOrDefault(pair, 0L) + overlapDays);
                     }
