@@ -13,26 +13,23 @@ public class OverlappingCalculationImpl implements OverlappingCalculation {
 
     @Override
     public EmployeePair getResult(List<EmployeeData> employeeData) {
-        Map<EmployeePair, Integer> overlapMap = calculateOverlaps(employeeData);
-
-        EmployeePair maxPair = new EmployeePair();
+        Map<EmployeePair, Integer> overlaps = calculateOverlaps(employeeData);
+        EmployeePair employeesMaxPair = new EmployeePair();
         int maxDays = 0;
 
-        for (Map.Entry<EmployeePair, Integer> entry : overlapMap.entrySet()) {
+        for (Map.Entry<EmployeePair, Integer> entry : overlaps.entrySet()) {
             if (entry.getValue() > maxDays) {
                 maxDays = entry.getValue();
-                maxPair = entry.getKey();
+                employeesMaxPair = entry.getKey();
             }
         }
+        employeesMaxPair.setTotalOverlapDays(maxDays);
 
-        maxPair.setTotalOverlapDays(maxDays);
-
-
-        return maxPair;
+        return employeesMaxPair;
     }
 
     private Map<EmployeePair, Integer> calculateOverlaps(List<EmployeeData> data) {
-        Map<EmployeePair, Integer> overlap = new HashMap<>();
+        Map<EmployeePair, Integer> overlaps = new HashMap<>();
 
         for (int i = 0; i < data.size(); i++) {
             for (int j = i + 1; j < data.size(); j++) {
@@ -53,12 +50,12 @@ public class OverlappingCalculationImpl implements OverlappingCalculation {
                         EmployeePair pair = new EmployeePair(firstEmployee.getEmployeeId(),
                                 secondEmployee.getEmployeeId(), firstEmployee.getProjectId());
 
-                        overlap.put(pair, overlap.getOrDefault(pair, 0) + overlapDays);
+                        overlaps.put(pair, overlaps.getOrDefault(pair, 0) + overlapDays);
                     }
                 }
             }
         }
 
-        return overlap;
+        return overlaps;
     }
 }

@@ -34,13 +34,13 @@ public class EmployeeStatisticController {
     public String uploadCSV(@RequestParam("file") MultipartFile file, Model model) {
         List<EmployeeData> employeeData = CSVParser.parseCSV(file);
 
-        EmployeePair maxPair = overlappingCalculation.getResult(employeeData);
+        EmployeePair employeesMaxPair = overlappingCalculation.getResult(employeeData);
 
-        if (maxPair != null) {
-            model.addAttribute("employeeId1", maxPair.getFirstEmployeeId());
-            model.addAttribute("employeeId2", maxPair.getSecondEmployeeId());
-            model.addAttribute("projectId", maxPair.getProjectId());
-            model.addAttribute("totalOverlapDays", maxPair.getTotalOverlapDays());
+        if (employeesMaxPair != null) {
+            model.addAttribute("employeeId1", employeesMaxPair.getFirstEmployeeId());
+            model.addAttribute("employeeId2", employeesMaxPair.getSecondEmployeeId());
+            model.addAttribute("projectId", employeesMaxPair.getProjectId());
+            model.addAttribute("totalOverlapDays", employeesMaxPair.getTotalOverlapDays());
         } else {
             model.addAttribute("message", "No overlapping projects found.");
         }
