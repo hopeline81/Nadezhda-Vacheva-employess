@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CSVParser {
 
     public static List<EmployeeData> parseCSV(MultipartFile file) {
-        List<EmployeeData> projects = new ArrayList<>();
+        List<EmployeeData> employeeData = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try (CSVReader reader = new CSVReader(new InputStreamReader(file.getInputStream()))) {
@@ -26,12 +26,12 @@ public class CSVParser {
                 int projectId = Integer.parseInt(line[1]);
                 Date dateFrom = dateFormat.parse(line[2]);
                 Date dateTo = line[3].trim().equals("NULL") ? new Date() : dateFormat.parse(line[3]);
-                projects.add(new EmployeeData(employeeId, projectId, dateFrom, dateTo));
+                employeeData.add(new EmployeeData(employeeId, projectId, dateFrom, dateTo));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return projects;
+        return employeeData;
     }
 }

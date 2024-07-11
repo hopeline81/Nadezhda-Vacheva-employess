@@ -3,9 +3,11 @@ package com.example.nadezhdavachevaemployees.controller;
 import com.example.nadezhdavachevaemployees.model.EmployeeData;
 import com.example.nadezhdavachevaemployees.model.EmployeePair;
 import com.example.nadezhdavachevaemployees.service.OverlappingCalculation;
+import com.example.nadezhdavachevaemployees.service.OverlappingCalculationImpl;
 import com.example.nadezhdavachevaemployees.util.CSVParser;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +20,10 @@ public class EmployeeStatisticController {
 
     private final OverlappingCalculation overlappingCalculation;
 
+    @Autowired
     public EmployeeStatisticController(OverlappingCalculation overlappingCalculation) {
         this.overlappingCalculation = overlappingCalculation;
     }
-
 
     @GetMapping("/")
     public String index() {
@@ -30,24 +32,15 @@ public class EmployeeStatisticController {
 
     @PostMapping("/upload")
     public String uploadCSV(@RequestParam("file") MultipartFile file, Model model) {
-        List<EmployeeData> projects = CSVParser.parseCSV(file);
-        Map<EmployeePair, Long> overlapMap = overlappingCalculation.calculateOverlaps(projects);
+        List<EmployeeData> employeeData = CSVParser.parseCSV(file);
 
-        EmployeePair maxPair = null;
-        long maxDays = 0;
-
-        for (Map.Entry<EmployeePair, Long> entry : overlapMap.entrySet()) {
-            if (entry.getValue() > maxDays) {
-                maxDays = entry.getValue();
-                maxPair = entry.getKey();
-            }
-        }
+        EmployeePair maxPair = overlappingCalculation.getResult(employeeData);
 
         if (maxPair != null) {
-            model.addAttribute("employeeId1", maxPair.getEmployeeId1());
-            model.addAttribute("employeeId2", maxPair.getEmployeeId2());
+            model.addAttribute("employeeId1", maxPair.getFirstEmployeeId());
+            model.addAttribute("employeeId2", maxPair.getSecondEmployeeId());
             model.addAttribute("projectId", maxPair.getProjectId());
-            model.addAttribute("totalOverlapDays", maxDays);
+            model.addAttribute("totalOverlapDays", maxPair.getTotalOverlapDays());
         } else {
             model.addAttribute("message", "No overlapping projects found.");
         }
